@@ -16,7 +16,7 @@ module Robot
         msg = state.place(x, y, d)
 
         [msg.nil?, msg]
-      rescue ArgumentError => e
+      rescue ArgumentError, TypeError => e
         [false, e.message]
       end
     end

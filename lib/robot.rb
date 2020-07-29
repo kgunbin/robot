@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'bundler/setup'
 require 'byebug'
 
 require './lib/robot/cli'
