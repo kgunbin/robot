@@ -7,15 +7,19 @@ module Robot
   Repl = Struct.new(:state, :debug) do
     def proceed
       while (buf = Readline.readline('> ', true))
-        # Parsing the user input
-        command, *args = buf.split(' ')
+        begin
+          # Parsing the user input
+          command, *args = buf.split(' ')
 
-        # Process the command
-        # Returns result (bool) and debug message
-        res = CommandProcessor.execute(state, command, args&.flatten&.join(','))
+          # Process the command
+          # Returns result (bool) and debug message
+          res = CommandProcessor.execute(state, command, args&.flatten&.join(','))
 
-        puts res[:output] if res[:success] && res[:output].present?
-        puts "DEBUG: #{res[:error]}" if debug && res[:success] == false
+          puts res[:output] if res[:success] && !res[:output].nil?
+          puts "DEBUG: #{res[:error]}" if debug && res[:success] == false
+        rescue StandardException => e
+          puts "ERROR: #{e.message}" if debug
+        end
       end
     rescue Interrupt
       puts 'Goodbye'

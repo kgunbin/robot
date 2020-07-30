@@ -6,7 +6,7 @@ module Robot
 
     def place(x, y, d)
       unless !d.nil? && DIRECTIONS.include?(d)
-        raise StateModificationException, "Direction must be one of #{DIRECTIONS.join(',')}"
+        raise StateException, "Direction must be one of #{DIRECTIONS.join(',')}"
       end
       _check_range(x, y)
 
@@ -32,7 +32,7 @@ module Robot
           new_x += 1
         else
           # Redundant as "place" validates the direction
-          raise StateModificationException, "Unknown direction #{direction}"
+          raise StateException, "Unknown direction #{direction}"
         end
 
         _check_range(new_x, new_y)
@@ -59,13 +59,13 @@ module Robot
     private
 
     def _check_range(x, y)
-      raise StateModificationException, 'X is out of range' unless !x.nil? && x >= 0 && x < size
-      raise StateModificationException, 'Y is out of range' unless !y.nil? && y >= 0 && y < size
+      raise StateException, 'X is out of range' unless !x.nil? && x >= 0 && x < size
+      raise StateException, 'Y is out of range' unless !y.nil? && y >= 0 && y < size
       nil
     end
 
     def _when_initialised
-      raise StateModificationException, 'Not initialised' unless initialised
+      raise StateException, 'Not initialised' unless initialised
       yield
     end
 

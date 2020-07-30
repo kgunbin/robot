@@ -11,7 +11,7 @@ module Robot
       def execute(state, args)
         output = execute_command(state, args)
         { success: true, output: output }
-      rescue ::Robot::StateModificationException => e
+      rescue ::Robot::StateException, ::Robot::CommandException => e
         { success: false, error: e.message }
       end
 

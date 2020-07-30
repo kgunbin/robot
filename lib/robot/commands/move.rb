@@ -7,9 +7,8 @@ module Robot
 
       register_with_name 'MOVE'
 
-      def execute(state, _args)
-        msg = state.move
-        [msg.nil?, msg]
+      def execute_command(state, _args)
+        state.move
       end
     end
   end

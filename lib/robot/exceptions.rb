@@ -1,3 +1,4 @@
 module Robot
-  class StateModificationException < StandardError; end
+  class StateException < StandardError; end
+  class CommandException < StandardError; end
 end

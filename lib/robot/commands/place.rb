@@ -15,7 +15,7 @@ module Robot
 
         state.place(x, y, d)
       rescue ArgumentError, TypeError => e
-        { success: false, error: e.message }
+        raise Robot::CommandException, e
       end
     end
   end

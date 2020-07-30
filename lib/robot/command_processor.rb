@@ -11,7 +11,6 @@ module Robot
       command = @commands[command]
 
       return { success: false, error: "Unknown command: #{command}" } if command.nil?
-byebug
       # Passing down the state and agruments as a string. Processors should mutate the state
       command.execute(state, args)
     end

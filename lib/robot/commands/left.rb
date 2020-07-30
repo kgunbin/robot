@@ -7,9 +7,8 @@ module Robot
 
       register_with_name 'LEFT'
 
-      def execute(state, _args)
+      def execute_command(state, _args)
         msg = state.turn(true)
-        [msg.nil?, msg]
       end
     end
   end
