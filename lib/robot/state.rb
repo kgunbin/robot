@@ -27,9 +27,9 @@ module Robot
         when 'SOUTH'
           new_y -= 1
         when 'EAST'
-          new_x -= 1
-        when 'WEST'
           new_x += 1
+        when 'WEST'
+          new_x -= 1
         else
           # Redundant as "place" validates the direction
           raise StateException, "Unknown direction #{direction}"
@@ -59,8 +59,8 @@ module Robot
     private
 
     def _check_range(x, y)
-      raise StateException, 'X is out of range' unless !x.nil? && x >= 0 && x < size
-      raise StateException, 'Y is out of range' unless !y.nil? && y >= 0 && y < size
+      raise StateException, "X (#{x}) is out of range" unless !x.nil? && x >= 0 && x < size
+      raise StateException, "Y (#{y}) is out of range" unless !y.nil? && y >= 0 && y < size
       nil
     end
 

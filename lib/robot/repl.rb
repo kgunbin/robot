@@ -6,7 +6,7 @@ Dir.glob(File.dirname(__FILE__) + '/commands/*', &method(:require))
 module Robot
   Repl = Struct.new(:state, :debug) do
     def proceed
-      while (buf = Readline.readline('> ', true))
+      while (buf = self.class.read_line)
         begin
           # Parsing the user input
           command, *args = buf.split(' ')
@@ -17,13 +17,16 @@ module Robot
 
           puts res[:output] if res[:success] && !res[:output].nil?
           puts "DEBUG: #{res[:error]}" if debug && res[:success] == false
-        rescue StandardException => e
+        rescue StandardError => e
           puts "ERROR: #{e.message}" if debug
         end
       end
     rescue Interrupt
       puts 'Goodbye'
-      exit
+    end
+
+    def self.read_line
+      Readline.readline('> ', true)
     end
   end
 end

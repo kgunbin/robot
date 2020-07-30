@@ -69,7 +69,7 @@ describe Robot::State do
       end
     end
     context 'when moving left' do
-      let(:direction) { 'EAST' }
+      let(:direction) { 'WEST' }
 
       it 'moves until the edge' do
         expect { state.move }.to change { state.position }.from([1, 1]).to([0, 1])
@@ -77,7 +77,7 @@ describe Robot::State do
       end
     end
     context 'when moving right' do
-      let(:direction) { 'WEST' }
+      let(:direction) { 'EAST' }
 
       it 'moves until the egde' do
         expect { state.move }.to change { state.position }.from([1, 1]).to([2, 1])
