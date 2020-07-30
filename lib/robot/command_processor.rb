@@ -10,8 +10,8 @@ module Robot
     def self.execute(state, command, args = nil)
       command = @commands[command]
 
-      return [false, 'Unknown command'] if command.nil?
-
+      return { success: false, error: "Unknown command: #{command}" } if command.nil?
+byebug
       # Passing down the state and agruments as a string. Processors should mutate the state
       command.execute(state, args)
     end

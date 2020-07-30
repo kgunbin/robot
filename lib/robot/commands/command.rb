@@ -8,6 +8,17 @@ module Robot
         base.extend(ClassMethods)
       end
 
+      def execute(state, args)
+        output = execute_command(state, args)
+        { success: true, output: output }
+      rescue ::Robot::StateModificationException => e
+        { success: false, error: e.message }
+      end
+
+      def execute_command(*)
+        raise 'Not implemented'
+      end
+
       module ClassMethods
         def register_with_name(name)
           # Register a new instance of command processor against the command it processes

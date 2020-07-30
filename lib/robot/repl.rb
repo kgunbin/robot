@@ -12,9 +12,10 @@ module Robot
 
         # Process the command
         # Returns result (bool) and debug message
-        res, message = CommandProcessor.execute(state, command, args&.flatten&.join(','))
+        res = CommandProcessor.execute(state, command, args&.flatten&.join(','))
 
-        puts "DEBUG: #{message}" if debug && message
+        puts res[:output] if res[:success] && res[:output].present?
+        puts "DEBUG: #{res[:error]}" if debug && res[:success] == false
       end
     rescue Interrupt
       puts 'Goodbye'

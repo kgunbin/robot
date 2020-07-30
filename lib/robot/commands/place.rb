@@ -7,17 +7,15 @@ module Robot
 
       register_with_name 'PLACE'
 
-      def execute(state, args)
+      def execute_command(state, args)
         x, y, d = args.split(',')[0..2]
 
         x = Integer(x)
         y = Integer(y)
 
-        msg = state.place(x, y, d)
-
-        [msg.nil?, msg]
+        state.place(x, y, d)
       rescue ArgumentError, TypeError => e
-        [false, e.message]
+        { success: false, error: e.message }
       end
     end
   end
