@@ -15,18 +15,25 @@ module Robot
           # Returns result (bool) and debug message
           res = CommandProcessor.execute(state, command, args&.flatten&.join(','))
 
-          puts res[:output] if res[:success] && !res[:output].nil?
-          puts "DEBUG: #{res[:error]}" if debug && res[:success] == false
+          self.class.write_line res[:output] if res[:success] && !res[:output].nil?
+          self.class.write_line "DEBUG: #{res[:error]}" if debug && res[:success] == false
         rescue StandardError => e
-          puts "ERROR: #{e.message}" if debug
+          self.class.write_line "ERROR: #{e.message}" if debug
         end
       end
     rescue Interrupt
-      puts 'Goodbye'
+      self.class.write_line 'Goodbye'
     end
 
+    # Reading the STDIN
+    # Separated in a method for testing purposes
     def self.read_line
       Readline.readline('> ', true)
+    end
+
+    # Writing to STDIN
+    def self.write_line(value)
+      puts value
     end
   end
 end

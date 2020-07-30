@@ -41,7 +41,7 @@ describe Robot do
     end
 
     it 'ends up where expected' do
-      expect { work }.to output('3,3,S').to_stdout
+      expect { work }.to output(/2,2,WEST/).to_stdout
     end
   end
 end
