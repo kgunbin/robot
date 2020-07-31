@@ -5,9 +5,8 @@ module Robot
     DIRECTIONS = %w[NORTH EAST SOUTH WEST].freeze
 
     def place(x, y, d)
-      unless !d.nil? && DIRECTIONS.include?(d)
-        raise StateException, "Direction must be one of #{DIRECTIONS.join(',')}"
-      end
+      raise StateException, "Direction must be one of #{DIRECTIONS.join(',')}" unless !d.nil? && DIRECTIONS.include?(d)
+
       _check_range(x, y)
 
       @position = [x, y]
@@ -61,11 +60,11 @@ module Robot
     def _check_range(x, y)
       raise StateException, "X (#{x}) is out of range" unless !x.nil? && x >= 0 && x < size
       raise StateException, "Y (#{y}) is out of range" unless !y.nil? && y >= 0 && y < size
-      nil
     end
 
     def _when_initialised
       raise StateException, 'Not initialised' unless initialised
+
       yield
     end
 

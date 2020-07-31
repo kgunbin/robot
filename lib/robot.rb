@@ -7,6 +7,9 @@ require './lib/robot/cli'
 require './lib/robot/repl'
 require './lib/robot/state'
 
+#
+# Robot movement simulator
+#
 module Robot
   def self.start
     options = CLI.options

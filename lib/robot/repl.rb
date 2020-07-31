@@ -1,7 +1,7 @@
 require 'readline'
 require_relative 'command_processor'
 # Recursively load and register all available commands
-Dir.glob(File.dirname(__FILE__) + '/commands/*', &method(:require))
+Dir.glob(File.dirname(__FILE__) + '/commands/*').sort.each(&method(:require))
 
 module Robot
   Repl = Struct.new(:state, :debug) do
@@ -12,7 +12,7 @@ module Robot
           command, *args = buf.split(' ')
 
           # Process the command
-          # Returns result (bool) and debug message
+          # Returns result (bool) and a message/error
           res = CommandProcessor.execute(state, command, args&.flatten&.join(','))
 
           self.class.write_line res[:output] if res[:success] && !res[:output].nil?
@@ -31,7 +31,7 @@ module Robot
       Readline.readline('> ', true)
     end
 
-    # Writing to STDIN
+    # Writing to STDOUT
     def self.write_line(value)
       puts value
     end

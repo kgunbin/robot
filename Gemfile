@@ -5,4 +5,5 @@ group(:test, :development) do
   gem 'byebug'
   gem 'rspec'
   gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 end

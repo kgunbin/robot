@@ -9,6 +9,7 @@ describe Robot do
     allow(Robot::Repl).to receive(:read_line) do
       cmd = queue.shift
       raise Interrupt if cmd.nil?
+
       cmd
     end
 

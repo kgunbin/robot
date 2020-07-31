@@ -22,7 +22,7 @@ module Robot
       module ClassMethods
         def register_with_name(name)
           # Register a new instance of command processor against the command it processes
-          ::Robot::CommandProcessor.register_command(name, self.new)
+          ::Robot::CommandProcessor.register_command(name, new)
         end
       end
     end
