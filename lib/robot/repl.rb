@@ -1,10 +1,8 @@
 require 'readline'
-require_relative 'command_processor'
-# Recursively load and register all available commands
-Dir.glob(File.dirname(__FILE__) + '/commands/*').sort.each(&method(:require))
 
 module Robot
-  Repl = Struct.new(:state, :debug) do
+  # The REPL implementation which captures user input, parses the arguments and calls the command processor
+  Repl = Struct.new(:processor, :debug) do
     def proceed
       while (buf = self.class.read_line)
         begin
@@ -12,8 +10,7 @@ module Robot
           command, *args = buf.split(' ')
 
           # Process the command
-          # Returns result (bool) and a message/error
-          res = CommandProcessor.execute(state, command, args&.flatten&.join(','))
+          res = processor.execute(command, args&.flatten&.join(','))
 
           self.class.write_line res[:output] if res[:success] && !res[:output].nil?
           self.class.write_line "DEBUG: #{res[:error]}" if debug && res[:success] == false
@@ -25,15 +22,19 @@ module Robot
       self.class.write_line 'Goodbye'
     end
 
-    # Reading the STDIN
-    # Separated in a method for testing purposes
-    def self.read_line
-      Readline.readline('> ', true)
-    end
+    # The IO is separated for testing purposes
+    # TODO: Could be injected as a separate IOProcessor instance if more that one source of IO is expected
+    class << self
+      # Reading the STDIN
+      # Separated in a method for testing purposes
+      def read_line
+        Readline.readline('> ', true)
+      end
 
-    # Writing to STDOUT
-    def self.write_line(value)
-      puts value
+      # Writing to STDOUT
+      def write_line(value)
+        puts value
+      end
     end
   end
 end

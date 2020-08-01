@@ -1,21 +1,29 @@
 module Robot
+  # The state of the toy robot
   State = Struct.new(:size) do
     attr_reader :position, :direction
 
     DIRECTIONS = %w[NORTH EAST SOUTH WEST].freeze
 
-    def place(x, y, d)
-      raise StateException, "Direction must be one of #{DIRECTIONS.join(',')}" unless !d.nil? && DIRECTIONS.include?(d)
+    # Place the robot on a board
+    # @x - the X position
+    # @y - the Y position
+    # @direction - initial direction the robit is facing
+    def place(x, y, direction)
+      unless !direction.nil? && DIRECTIONS.include?(direction)
+        raise StateException, "Direction must be one of #{DIRECTIONS.join(',')}"
+      end
 
       _check_range(x, y)
 
       @position = [x, y]
-      @direction = d
+      @direction = direction
       @initialised = true
 
       nil
     end
 
+    # Move the robot 1 step towards current direction
     def move
       _when_initialised do
         new_x, new_y = position
@@ -41,6 +49,8 @@ module Robot
       end
     end
 
+    # Turns the robot 90 degrees
+    # @left - if true, robot turns anti-clockwise, if false - clockwise
     def turn(left)
       _when_initialised do
         idx = DIRECTIONS.index(direction)
@@ -51,6 +61,7 @@ module Robot
       end
     end
 
+    # Reports the surrent position and direction of the robot
     def report
       _when_initialised { (position + [direction]).join(',') }
     end
