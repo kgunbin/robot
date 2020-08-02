@@ -1,15 +1,10 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require './lib/robot/exceptions'
-require './lib/robot/cli'
-require './lib/robot/repl'
-require './lib/robot/state'
-
-# The order of code loading is important here
-require './lib/robot/command_processor'
+# Load everything from the lib/robot first
+Dir.glob(File.dirname(__FILE__) + '/robot/*.rb').sort.each(&method(:require))
 # Recursively load and register all available commands
-Dir.glob(File.dirname(__FILE__) + '/robot/commands/*').sort.each(&method(:require))
+Dir.glob(File.dirname(__FILE__) + '/robot/commands/*.rb').sort.each(&method(:require))
 
 #
 # Robot movement simulator
@@ -19,7 +14,8 @@ module Robot
     options = CLI.options
     state = State.new(options[:size])
     processor = CommandProcessor.new(state)
+    io = IO.new(options[:debug])
 
-    Repl.new(processor, options[:debug]).proceed
+    Repl.new(processor, io).proceed
   end
 end

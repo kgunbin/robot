@@ -1,4 +1,5 @@
 require_relative '../../spec_helper'
+require_relative '../../../lib/robot/state'
 
 describe Robot::State do
   let(:size) { 5 }

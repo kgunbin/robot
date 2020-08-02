@@ -5,8 +5,10 @@ describe Robot, type: :integration do
   subject(:work) { described_class.start }
 
   before do
+    # Using a partial double to keep asserting against STDOUT output
+    allow(Robot::IO).to receive(:new).and_return(io)
     # Stub user input, taking commands from the "queue" until it is empty
-    allow(Robot::Repl).to receive(:read_line) do
+    allow(io).to receive(:read) do
       cmd = queue.shift
       raise Interrupt if cmd.nil?
 
@@ -18,6 +20,7 @@ describe Robot, type: :integration do
   end
 
   let(:options) { { size: 5, debug: true } }
+  let(:io) { Robot::IO.new(options[:debug]) }
 
   context 'walking the spiral' do
     let(:queue) do
