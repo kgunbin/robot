@@ -1,6 +1,6 @@
 module Robot
   # The state of the toy robot
-  State = Struct.new(:size) do
+  State = Struct.new(:size, :obstacles) do
     attr_reader :position, :direction
 
     DIRECTIONS = %w[NORTH EAST SOUTH WEST].freeze
@@ -71,6 +71,7 @@ module Robot
     def _check_range(x, y)
       raise StateException, "X (#{x}) is out of range" unless !x.nil? && x >= 0 && x < size
       raise StateException, "Y (#{y}) is out of range" unless !y.nil? && y >= 0 && y < size
+      raise StateException, "An obstacle" if obstacles.any? { |(o_x, o_y)| o_x == x && o_y == y }
     end
 
     def _when_initialised

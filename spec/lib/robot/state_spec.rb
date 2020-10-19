@@ -3,7 +3,8 @@ require_relative '../../../lib/robot/state'
 
 describe Robot::State do
   let(:size) { 5 }
-  let(:state) { described_class.new(size) }
+  let(:state) { described_class.new(size, obstacles) }
+  let(:obstacles) { [] }
 
   describe '#place' do
     subject(:place) { state.place(x, y, d) }
@@ -82,6 +83,22 @@ describe Robot::State do
 
       it 'moves until the egde' do
         expect { state.move }.to change { state.position }.from([1, 1]).to([2, 1])
+        expect { state.move }.to raise_exception Robot::StateException
+      end
+    end
+
+    context 'with obstacles' do
+      let(:obstacles) do
+        # vertical line on left edge
+        [
+          [0, 0],
+          [0, 1],
+          [0, 2]
+        ]
+      end
+      let(:direction) { 'WEST' }
+
+      it 'hits the obstacle' do
         expect { state.move }.to raise_exception Robot::StateException
       end
     end

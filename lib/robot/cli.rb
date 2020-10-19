@@ -6,7 +6,7 @@ module Robot
   class CLI
     class << self
       def options
-        options = { size: 5, debug: false }
+        options = { size: 5, debug: false, num_obstacles: 0 }
 
         OptionParser.new do |opts|
           opts.on('-sSIZE', '--size=SIZE', "Board size. Defaults to #{options[:size]}") do |s|
@@ -20,7 +20,9 @@ module Robot
             puts Robot::VERSION
             exit
           end
-
+          opts.on('-oNUM', '--num-obstacles=NUM', 'Number of the obstacles on the board') do |n|
+            options[:num_obstacles] = n.to_i
+          end
           opts.on('-d', '--debug', 'Print debug messages') { |x| options[:debug] = x }
           opts.on('-h', '--help', 'Prints help message') do |x|
             puts opts

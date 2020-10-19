@@ -19,8 +19,9 @@ describe Robot, type: :integration do
     allow(Robot::CLI).to receive(:options).and_return(options)
   end
 
-  let(:options) { { size: 5, debug: true } }
+  let(:options) { { size: 5, debug: true, num_obstacles: num_obstacles } }
   let(:io) { Robot::IO.new(options[:debug]) }
+  let(:num_obstacles) { 0 }
 
   context 'walking the spiral' do
     let(:queue) do
@@ -76,6 +77,28 @@ describe Robot, type: :integration do
       expect do
         expect { work }.to output(/Goodbye/).to_stdout
       end.not_to raise_exception
+    end
+  end
+
+  context 'with obstacles' do
+    let(:queue) { [] }
+
+    context 'happy path' do
+      let(:num_obstacles) { 3 }
+
+      before do
+        expect(Robot::State).to receive(:new).with(5, satisfy { |x| x.size == 3 }).and_call_original
+      end
+
+      it { is_expected }
+    end
+
+    context 'when num_obstacles is too big' do
+      let(:num_obstacles) { 26 }
+
+      it 'raises an exception' do
+        expect { work }.to raise_exception /Too many obstacles/
+      end
     end
   end
 end
