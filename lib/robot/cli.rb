@@ -9,7 +9,7 @@ module Robot
         options = { size: 5, debug: false, num_obstacles: 0 }
 
         OptionParser.new do |opts|
-          opts.on('-sSIZE', '--size=SIZE', "Board size. Defaults to #{options[:size]}") do |s|
+          opts.on('-sSIZE', '--size=SIZE', "Set board size. Defaults to #{options[:size]}") do |s|
             options[:size] = Integer(s)
           rescue ArgumentError
             puts "Incorrect value for -s argument - #{s}. Must be an integer"
@@ -24,7 +24,7 @@ module Robot
             options[:num_obstacles] = n.to_i
           end
           opts.on('-d', '--debug', 'Print debug messages') { |x| options[:debug] = x }
-          opts.on('-h', '--help', 'Prints help message') do |x|
+          opts.on('-h', '--help', 'Print help message') do |_x|
             puts opts
             exit
           end

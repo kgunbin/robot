@@ -17,6 +17,7 @@ The program accepts the following command-line arguments:
  - `-s SIZE`, `--size=SIZE` - Board size. Defaults to 5
  - `-v`, `--version` - Show version and exit
  - `-d`, `--debug` - Print debug messages
+ - `-o`, `--num-obstacles` - Number of the obstacles on the board
  - `-h`, `--help` - Prints help message
 
 ## Development
